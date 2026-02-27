@@ -5,4 +5,11 @@ print("3 - Sair")
 
 opcao = input("Escolha uma opção: ")
 
-print("Você escolheu:", opcao)
+if opcao == "1":
+    print("Você escolheu adicionar tarefa.")
+elif opcao == "2":
+    print("você escolheu listar tarefas.")
+elif opcao == "3":
+    print("Saindo do programa...")
+else:
+    print("Opção inválida.")
