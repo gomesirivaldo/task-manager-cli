@@ -26,6 +26,7 @@ def adicionar_tarefa(tarefas):
     }
 
     tarefas.append(nova_tarefa)
+
     salvar_tarefas(tarefas)
 
     print("Tarefa adicionada com sucesso.\n")
@@ -36,10 +37,58 @@ def listar_tarefas(tarefas):
         return 
     
     print("\nLista de tarefas: ")
+
     for tarefa in tarefas:
+
         status = "✔" if tarefa["concluida"] else "✘"
+
         print(f'{tarefa["id"]} - {tarefa["descricao"]} [{status}]')
+
     print()
+
+def concluir_tarefa(tarefas):
+
+    try:
+        id_tarefa = int(input("Digite o ID da tarefa que deseja concluir: "))
+    except ValueError:
+        print("Id inválido.\n")
+        return
+    
+    for tarefa in tarefas:
+
+        if tarefa["id"] == id_tarefa:
+
+            tarefa["concluida"] = True
+
+            salvar_tarefas(tarefas)
+
+            print("Tarefa concluída com sucesso.\n")
+
+            return
+        
+    print("Tarefa não encontrada.\n")
+
+def remover_tarefa(tarefas):
+
+    try:
+        id_tarefa = int(input("Digite o ID da tarefa que deseja remover: "))
+    except ValueError:
+        print("ID inválido.\n")
+        return
+    
+    for tarefa in tarefas:
+
+        if tarefa["id"] == id_tarefa:
+
+            tarefas.remove(tarefa)
+
+            salvar_tarefas(tarefas)
+
+            print("Tarefa removida com sucesso.\n")
+
+            return
+        
+    print("Tarefa não encontrada.\n")
 
 def main():
     tarefas = carregar_tarefas()
@@ -48,21 +97,35 @@ def main():
         print("=== TASK MANAGER ===")
         print("1 - Adicionar tarefa")
         print("2 - Listar tarefas")
-        print("3 - Sair")
+        print("3 - Concluir tarefa")
+        print("4 - Remover tarefa")
+        print("5 - Sair")
 
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
+
             adicionar_tarefa(tarefas)
 
         elif opcao == "2":
+
             listar_tarefas(tarefas)
 
         elif opcao == "3":
+
+            concluir_tarefa(tarefas)
+
+        elif opcao == "4":
+
+            remover_tarefa(tarefas)
+
+        elif opcao == "5":
+
             print("Saindo...")
             break
 
         else:
+
             print("Opção inválida.\n")
 
 if __name__=="__main__":
