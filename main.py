@@ -1,132 +1,46 @@
-import json
+from tarefas import adicionar_tarefa, listar_tarefas
+from arquivo import carregar_tarefas
 
-def salvar_tarefas(tarefas):
-    with open("tarefas.json", "w", encoding="utf-8") as arquivo:
-        json.dump(tarefas, arquivo, ensure_ascii=False, indent=4)
+tarefas = carregar_tarefas()
 
-def carregar_tarefas():
-    try:
-        with open("tarefas.json", "r", encoding="utf-8") as arquivo:
-            return json.load(arquivo)
-    except FileNotFoundError:
-        return []
-    
-def gerar_proximo_id(tarefas):
-    if not tarefas:
-        return 1
-    return max(tarefa["id"] for tarefa in tarefas) + 1
+if len(tarefas) > 0:
+    proximo_id = tarefas[-1]["id"] + 1
+else:
+    proximo_id = 1
 
-def adicionar_tarefa(tarefas):
-    descricao = input("Digite a descrição da tarefa: ")
+while True:
 
-    nova_tarefa = {
-        "id": gerar_proximo_id(tarefas),
-        "descricao": descricao,
-        "concluida": False
-    }
+    print("=== TASK MANAGER ===")
+    print("1 - Adicionar tarefa")
+    print("2 - Listar tarefas")
+    print("3 - Concluir tarefa")
+    print("4 - Remover tarefa")
+    print("5 - Sair")
 
-    tarefas.append(nova_tarefa)
+    opcao = input("Escolha uma opção: ")
 
-    salvar_tarefas(tarefas)
+    if opcao == "1":
+        proximo_id= adicionar_tarefa(tarefas, proximo_id)
 
-    print("Tarefa adicionada com sucesso.\n")
+    elif opcao == "2":
+        listar_tarefas(tarefas)
 
-def listar_tarefas(tarefas):
-    if not tarefas:
-        print("Nenhuma tarefa adicionada.\n")
-        return 
-    
-    print("\nLista de tarefas: ")
+    elif opcao == "3":
 
-    for tarefa in tarefas:
+        concluir_tarefa(tarefas)
 
-        status = "✔" if tarefa["concluida"] else "✘"
+    elif opcao == "4":
 
-        print(f'{tarefa["id"]} - {tarefa["descricao"]} [{status}]')
+        remover_tarefa(tarefas)
 
-    print()
+    elif opcao == "5":
 
-def concluir_tarefa(tarefas):
+        print("Saindo...")
+        break
 
-    try:
-        id_tarefa = int(input("Digite o ID da tarefa que deseja concluir: "))
-    except ValueError:
-        print("Id inválido.\n")
-        return
-    
-    for tarefa in tarefas:
+    else:
 
-        if tarefa["id"] == id_tarefa:
-
-            tarefa["concluida"] = True
-
-            salvar_tarefas(tarefas)
-
-            print("Tarefa concluída com sucesso.\n")
-
-            return
-        
-    print("Tarefa não encontrada.\n")
-
-def remover_tarefa(tarefas):
-
-    try:
-        id_tarefa = int(input("Digite o ID da tarefa que deseja remover: "))
-    except ValueError:
-        print("ID inválido.\n")
-        return
-    
-    for tarefa in tarefas:
-
-        if tarefa["id"] == id_tarefa:
-
-            tarefas.remove(tarefa)
-
-            salvar_tarefas(tarefas)
-
-            print("Tarefa removida com sucesso.\n")
-
-            return
-        
-    print("Tarefa não encontrada.\n")
-
-def main():
-    tarefas = carregar_tarefas()
-
-    while True:
-        print("=== TASK MANAGER ===")
-        print("1 - Adicionar tarefa")
-        print("2 - Listar tarefas")
-        print("3 - Concluir tarefa")
-        print("4 - Remover tarefa")
-        print("5 - Sair")
-
-        opcao = input("Escolha uma opção: ")
-
-        if opcao == "1":
-
-            adicionar_tarefa(tarefas)
-
-        elif opcao == "2":
-
-            listar_tarefas(tarefas)
-
-        elif opcao == "3":
-
-            concluir_tarefa(tarefas)
-
-        elif opcao == "4":
-
-            remover_tarefa(tarefas)
-
-        elif opcao == "5":
-
-            print("Saindo...")
-            break
-
-        else:
-
-            print("Opção inválida.\n")
+        print("Opção inválida.\n")
 
 if __name__=="__main__":
     main()
