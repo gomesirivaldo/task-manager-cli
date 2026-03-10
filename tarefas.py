@@ -1,6 +1,15 @@
 
 from arquivo import salvar_tarefas
 
+def buscar_tarefa_por_id(tarefas, id_tarefas):
+
+    for tarefa in tarefas:
+
+        if tarefa["id"] == id_tarefas:
+            return tarefa
+    
+    return None
+
 def adicionar_tarefa(tarefas, proximo_id):
 
     descricao = input("Digite a descrição da tarefa: ")
