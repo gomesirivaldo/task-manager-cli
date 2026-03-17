@@ -1,5 +1,6 @@
 
 from arquivo import salvar_tarefas
+from utils import pedir_id
 
 def buscar_tarefa_por_id(tarefas, id_tarefas):
 
@@ -43,34 +44,33 @@ def listar_tarefas(tarefas):
         print(f'{tarefa["id"]} - {tarefa["descricao"]} [{status}]')
 
 def concluir_tarefa(tarefas):
-    id_tarefa = int(input("Digite o ID da tarefa para concluir: "))
 
-    for tarefa in tarefas:
+    id_tarefa = pedir_id()
 
-        if tarefa["id"] == id_tarefa:
+    tarefa = buscar_tarefa_por_id(tarefas, id_tarefa)
 
-            tarefa["concluida"] = True
+    if tarefa:
 
-            salvar_tarefas(tarefas)
+        tarefa["concluida"] = True
+        salvar_tarefas(tarefas)
 
-            print("Tarefa concluída com sucesso.")
-            return
+        print("Tarefa concluída com sucesso.")
     
-    print("Tarefa não encontrada.")
+    else:
+        print("Tarefa não encontrada.")
 
 def remover_tarefa(tarefas):
 
-    id_tarefa = int(input("Digite o ID da tarefa para remover: "))
+    id_tarefa = pedir_id()
 
-    for tarefa in tarefas:
+    tarefa = buscar_tarefa_por_id(tarefas, id_tarefa)
 
-        if tarefa["id"] == id_tarefa:
+    if tarefa:
 
-            tarefas.remove(tarefa)
+        tarefas.remove(tarefa)
+        salvar_tarefas(tarefas)
 
-            salvar_tarefas(tarefas)
+        print("Tarefa removida com sucesso.")
 
-            print("Tarefa removida com sucesso.")
-            return
-    
-    print("Tarefa não encontrada.")
+    else:
+        print("Tarefa não encontrada.")
