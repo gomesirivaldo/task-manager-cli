@@ -74,3 +74,16 @@ def remover_tarefa(tarefas):
 
     else:
         print("Tarefa não encontrada.")
+
+def obter_proximo_id(tarefas):
+
+    if len(tarefas) == 0:
+        return 1
+    
+    maior_id = 0
+
+    for tarefa in tarefas:
+        if tarefa["id"] > maior_id:
+            maior_id = tarefa["id"]
+    
+    return maior_id + 1

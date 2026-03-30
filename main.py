@@ -1,4 +1,4 @@
-from tarefas import adicionar_tarefa, listar_tarefas, concluir_tarefa, remover_tarefa
+from tarefas import adicionar_tarefa, listar_tarefas, concluir_tarefa, remover_tarefa, obter_proximo_id
 from arquivo import carregar_tarefas
 from utils import mostrar_menu, limpar_tela, pausar
 
@@ -6,10 +6,7 @@ def main():
 
     tarefas = carregar_tarefas()
 
-    if len(tarefas) > 0:
-        proximo_id = tarefas[-1]["id"] + 1
-    else:
-        proximo_id = 1
+    proximo_id = obter_proximo_id(tarefas)
 
     while True:
 
