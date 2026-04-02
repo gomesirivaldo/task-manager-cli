@@ -1,12 +1,13 @@
 
 from arquivo import salvar_tarefas
 from utils import pedir_id
+from models import Tarefa
 
 def buscar_tarefa_por_id(tarefas, id_tarefas):
 
     for tarefa in tarefas:
 
-        if tarefa["id"] == id_tarefas:
+        if tarefa.id == id_tarefas:
             return tarefa
     
     return None
@@ -15,11 +16,7 @@ def adicionar_tarefa(tarefas, proximo_id):
 
     descricao = input("Digite a descrição da tarefa: ")
 
-    nova_tarefa = {
-        "id": proximo_id,
-        "descricao": descricao,
-        "concluida": False
-    }
+    nova_tarefa = Tarefa(proximo_id, descricao)
 
     tarefas.append(nova_tarefa)
 
@@ -39,9 +36,9 @@ def listar_tarefas(tarefas):
 
     for tarefa in tarefas:
 
-        status = "✔" if tarefa["concluida"] else "✘"
+        status = "✔" if tarefa.concluida else "✘"
 
-        print(f'{tarefa["id"]} - {tarefa["descricao"]} [{status}]')
+        print(f'{tarefa.id} - {tarefa.descricao} [{status}]')
 
 def concluir_tarefa(tarefas):
 
@@ -51,7 +48,7 @@ def concluir_tarefa(tarefas):
 
     if tarefa:
 
-        tarefa["concluida"] = True
+        tarefa.concluida = True
         salvar_tarefas(tarefas)
 
         print("Tarefa concluída com sucesso.")
@@ -83,7 +80,7 @@ def obter_proximo_id(tarefas):
     maior_id = 0
 
     for tarefa in tarefas:
-        if tarefa["id"] > maior_id:
-            maior_id = tarefa["id"]
+        if tarefa.id > maior_id:
+            maior_id = tarefa.id
     
     return maior_id + 1
